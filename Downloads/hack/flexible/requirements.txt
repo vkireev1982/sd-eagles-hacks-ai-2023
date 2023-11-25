@@ -1,0 +1,6 @@
+colorama
+termcolor
+numpy
+matplotlib
+scipy
+deap

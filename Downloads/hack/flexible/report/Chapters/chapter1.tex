@@ -1,0 +1,44 @@
+\section{Introduction}
+
+\subsection{Présentation du projet}
+
+Dans ce projet, nous considérons un problème d'ordonnancement appelé "Flexible Job Shop". Nous disposons d'un ensemble de $n$ travaux (jobs) devant être exécutés sur $m$ machines. Chaque job se décompose en une liste d'activités qui doivent être réalisées dans l'ordre. Une activité est décrite par un ensemble d'opération de durée et de machine différente et il faut choisir l'opération qui minimise la durée totale que nécessite l'ensemble des jobs pour être terminé.
+
+On supposera que les machines ne peuvent réaliser qu'une opération à la fois bien que la solution que nous proposons dans le cas d'une recherche à l'aide d'une heuristique, les machines peuvent supporter plusieurs opérations en simultané. Dans le cas de l'approche génétique, ce nombre est fixé à une seule opération en simultané. On suppose également qu'il y a également au moins deux jobs.
+
+Une solution est admissible si elle respecte la contrainte d'ordre que l'on présentera plus tard dans ce rapport.
+
+\subsection{Structure des jeux de données}
+
+Voici un exemple de jeu de données:
+\lstinputlisting[xleftmargin=2cm,backgroundcolor=\color{white},basicstyle=\ttfamily\footnotesize\color{black}]{./app/data/test.fjs}
+
+La première ligne représente le nombre de jobs, le nombre de machines et enfin le nombre d'opérations que la machine peut réaliser en parallèle. Ensuite, on retrouve une ligne par job. Le premier nombre de la ligne représente le nombre d'activités pour ce job. Le second (que l'on va appeler $k \geq 1$) correspond à la liste des opérations que l'on peut choisir pour réaliser l'activité. On retrouve ensuite $k$ paires correspondant au numéro de la machine et à la durée que prend l'opération, puis les données pour la seconde activité, etc. 
+
+\subsection{Structure de notre projet}
+
+Le code des classes se retrouvent dans les fichiers \textit{job.py}, \textit{activity.py}, \textit{operation.py} et \textit{machine.py}. Nous ne rentrerons pas dans le détail de ces derniers, le code étant suffisament explicite.
+
+Afin de pouvoir exécuter notre code, un certain nombre de librairies sont nécessaires. Il faudra installer \textit{deap}, \textit{colorama}, \textit{termcolor}, \textit{more-itertools}, \textit{numpy} et \textit{matplotlib}. Il est recommandé de les installer à l'aide du module \textit{pip}.
+
+\newpage
+
+\subsubsection{Parsing des fichiers de données}
+
+\lstinputlisting[firstline=10, lastline=50]{./app/customparser.py}
+
+\subsubsection{Classe représentant les jobs}
+
+Un Job se décompose en un identifiant, la liste des activités à réaliser et la liste des activités déjà réalisées.
+
+\subsubsection{Classe représentant les activités}
+
+Une activité est composée d'un pointeur vers le job auquel elle est rattachée, d'un identifiant d'activité, de la liste des opérations possibles et de l'opération réalisée.
+
+\subsubsection{Classe représentant les opérations}
+
+Une opération est décrite par un identifiant, une durée, l'identifiant de la machine qui doit procéder à l'opération, l'instant $t$ où l'opération est commencée, un ordre d'arrivée dans la machine (utile pour dessiner le planning), et d'un booléen pour indiquer si l'opération est en cours de traitement.
+
+\subsubsection{Classe représentant les machines}
+
+Une machine a un identifiant, un booléen pour indiquer son état (travaille ou non), la liste des opérations réalisées par la machine, la liste des opérations en cours, un entier représentant le nombre maximal d'opérations en parallèle, un entier symbolisant l'échelle de temps, et une liste représentants les slots libres de la machine (utile pour dessiner le planning).

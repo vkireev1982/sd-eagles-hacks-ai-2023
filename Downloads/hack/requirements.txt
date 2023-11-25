@@ -1,0 +1,10 @@
+pandas
+numpy
+mlflow
+jupyter
+ipykernel
+catboost
+xgboost
+tqdm
+gurobipy
+mip
